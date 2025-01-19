@@ -13,7 +13,7 @@ from haystack import component
 from haystack_integrations.components.embedders.fastembed import FastembedDocumentEmbedder, FastembedTextEmbedder
 from haystack.components.embedders import SentenceTransformersTextEmbedder, SentenceTransformersDocumentEmbedder
 #import config
-
+import streamlit as st
 
 qdrant_doc_store = QdrantDocumentStore(
     url="https://7cc93a52-0d54-4d45-892a-9ad381d40b89.europe-west3-0.gcp.cloud.qdrant.io",
