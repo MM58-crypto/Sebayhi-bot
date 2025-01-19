@@ -1,6 +1,6 @@
 # importing libs
 import os # Import the os module for environment variable manipulation 
-from haystack_pipeline import *
+import haystack_pipeline    
 import fitz
 import pytesseract
 import streamlit as st
