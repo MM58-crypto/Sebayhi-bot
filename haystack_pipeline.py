@@ -20,7 +20,7 @@ qdrant_doc_store = QdrantDocumentStore(
     index="Document",
     embedding_dim=768,
     recreate_index=False,
-    api_key = st.secrets["Qdrant_key"]
+    api_key = Secret.from_token(st.secrets["Qdrant_key"])
 )
 
 
