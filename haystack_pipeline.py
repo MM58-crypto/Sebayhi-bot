@@ -13,18 +13,18 @@ from haystack import component
 from haystack_integrations.components.embedders.fastembed import FastembedDocumentEmbedder, FastembedTextEmbedder
 from haystack.components.embedders import SentenceTransformersTextEmbedder, SentenceTransformersDocumentEmbedder
 import config
-
+import streamlit as st
 
 qdrant_doc_store = QdrantDocumentStore(
     url="https://7cc93a52-0d54-4d45-892a-9ad381d40b89.europe-west3-0.gcp.cloud.qdrant.io",
     index="Document",
     embedding_dim=768,
     recreate_index=False,
-    api_key = Secret.from_token(config.Qdrant_key)
+    api_key = st.secrets["Qdrant_key"]
 )
 
 
-gemini_chat = GoogleAIGeminiGenerator(model="gemini-1.5-pro", api_key=Secret.from_token(config.GOOGLE_API_KEY))
+gemini_chat = GoogleAIGeminiGenerator(model="gemini-1.5-pro", api_key=st.secrets["GOOGLE_API_KEY"])
 
 prompt_template = """
 Given the following information, answer the question.
