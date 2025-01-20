@@ -34,7 +34,7 @@ Sebayhi is a chatbot designed to help users learn Arabic grammar. It leverages v
 ## Project Structure
 
 - [main.py](http://_vscodecontentref_/0): The main script that runs the Streamlit application.
-- [config.py](http://_vscodecontentref_/1): Configuration settings for the application.
+- [config.py](http://_vscodecontentref_/1): Configuration settings for the application, including API keys.
 - [haystack_pipeline.py](http://_vscodecontentref_/2): Contains the pipeline for processing user inputs and generating responses.
 
 ## Dependencies
