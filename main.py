@@ -31,7 +31,7 @@ if question:= st.chat_input("Greetings!"):
     )
     response = haystack_pipeline.pipeline.run({
         "text_embedder": {"text": question},
-        "prompt_builder": {"template": question + conversation_history}
+        "prompt_builder": {"query": question + conversation_history}
     })
     with st.chat_message("user"):
         st.markdown(question)  
