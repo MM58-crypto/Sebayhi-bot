@@ -15,7 +15,6 @@ Sebayhi is a chatbot designed to help users learn Arabic grammar. It leverages v
 1. Clone the repository:
     ```sh
     git clone https://github.com/yourusername/sebayhi.git
-    cd sebayhi
     ```
 
 2. Install the required dependencies:
