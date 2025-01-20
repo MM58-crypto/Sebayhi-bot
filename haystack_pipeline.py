@@ -62,4 +62,4 @@ pipeline.add_component("gemini", gemini_chat)
 
 pipeline.connect("text_embedder.embedding", "retriever.query_embedding")
 pipeline.connect("retriever", "prompt_builder.documents")
-pipeline.connect("prompt_builder", "gemini")
+pipeline.connect("prompt_builder.prompt", "gemini")
