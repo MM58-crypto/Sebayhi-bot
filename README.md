@@ -5,8 +5,10 @@ Sebayhi is a chatbot designed to help users learn Arabic grammar. It leverages v
 ## Features
 
 - Interactive chatbot for learning Arabic grammar
+- Utilizes Haystack for document retrieval and processing
 - Uses OCR to process images
 - Integrates with Streamlit for a web-based interface
+
 
 ## Installation
 
