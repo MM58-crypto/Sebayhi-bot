@@ -24,7 +24,7 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 # user input
-if question:= st.chat_input("مرحبًا أخوتي مرحبًا بالصّحاب فالبدار البادر نحن بالانتظار!"):
+if question:= st.chat_input("يا مرحبا ترحيبة الصبح للشّمس"):
     # convo history to pass to the pipeline
     conversation_history = "\n".join(
         f"{msg['role'].capitalize()}: {msg['content']}" for msg in st.session_state.messages
