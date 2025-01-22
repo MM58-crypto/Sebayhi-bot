@@ -54,9 +54,9 @@ if question:= st.chat_input("Greetings!"):
         clean_response = "\n\n".join(response["gemini"]["replies"])
         stream_response = st.write_stream(response_generator(clean_response))
 
-        st.markdown(clean_response) 
+        #st.markdown(clean_response) 
     
-    st.session_state.messages.append({"role": "assisant", "content": clean_response})
+    st.session_state.messages.append({"role": "assisant", "content": stream_response})
 
 
 
