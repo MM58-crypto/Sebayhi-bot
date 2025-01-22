@@ -1,17 +1,20 @@
 # importing libs
-import os # Import the os module for environment variable manipulation 
-import haystack_pipeline    
+import os # Import the os module for environment variable manipulation
+import config 
+import haystack_pipeline
 import fitz
 import pytesseract
 import streamlit as st
 from PIL import Image
 from haystack.utils import Secret
+import cv2
 import numpy as np
-
+import time
 
 st.title("Sebayhi - Your Arabic Educator")
 st.divider()
 st.caption("A chatbot for learning arabic grammar")
+#st.sidebar()
 
 # Intiialize Chat/Convo history
 if "messages" not in st.session_state:
@@ -23,8 +26,15 @@ for message in st.session_state.messages:
             message["role"]):
         st.markdown(message["content"])
 
+# To stream response (i.e. typewriter effect)
+def response_generator(response):
+
+    for word in response.split():
+            yield word + " "
+            time.sleep(0.05)
+
 # user input
-if question:= st.chat_input("يا مرحبا ترحيبة الصبح للشّمس"):
+if question:= st.chat_input("Greetings!"):
     # convo history to pass to the pipeline
     conversation_history = "\n".join(
         f"{msg['role'].capitalize()}: {msg['content']}" for msg in st.session_state.messages
@@ -40,10 +50,10 @@ if question:= st.chat_input("يا مرحبا ترحيبة الصبح للشّم�
     # Display assistant msgs in chat msg container
 
     with st.chat_message("assistant"):
-        messages=[
-
-        ]
+        
         clean_response = "\n\n".join(response["gemini"]["replies"])
+        stream_response = st.write_stream(response_generator(clean_response))
+
         st.markdown(clean_response) 
     
     st.session_state.messages.append({"role": "assisant", "content": clean_response})
