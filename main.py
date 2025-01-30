@@ -2,12 +2,12 @@
 import os # Import the os module for environment variable manipulation
 #import config 
 import haystack_pipeline
-import fitz
-import pytesseract
+#import fitz
+#import pytesseract
 import streamlit as st
-from PIL import Image
+#from PIL import Image
 from haystack.utils import Secret
-import cv2
+#import cv2
 import numpy as np
 import time
 
