@@ -1,6 +1,6 @@
 # importing libs
 import os # Import the os module for environment variable manipulation
-import config 
+#import config 
 import haystack_pipeline
 import fitz
 import pytesseract
