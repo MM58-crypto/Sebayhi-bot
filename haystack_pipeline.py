@@ -16,7 +16,7 @@ from haystack.components.embedders import SentenceTransformersTextEmbedder, Sent
 import streamlit as st
 
 qdrant_doc_store = QdrantDocumentStore(
-    url="https://7cc93a52-0d54-4d45-892a-9ad381d40b89.europe-west3-0.gcp.cloud.qdrant.io",
+    url="https://3d6b132b-9c57-4c08-9ced-28d76516d7f4.us-west-2-0.aws.cloud.qdrant.io",
     index="Document",
     embedding_dim=768,
     recreate_index=False,
