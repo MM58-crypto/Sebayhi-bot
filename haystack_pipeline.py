@@ -14,7 +14,7 @@ from haystack_integrations.components.embedders.fastembed import FastembedDocume
 from haystack.components.embedders import SentenceTransformersTextEmbedder, SentenceTransformersDocumentEmbedder
 #import config
 import streamlit as st
-import time
+#import time
 
 qdrant_doc_store = QdrantDocumentStore(
     url="https://3d6b132b-9c57-4c08-9ced-28d76516d7f4.us-west-2-0.aws.cloud.qdrant.io",
@@ -54,7 +54,7 @@ pipeline.add_component("text_embedder", txt_embedder)
 pipeline.add_component("retriever", QdrantEmbeddingRetriever(document_store=qdrant_doc_store))
 pipeline.add_component("prompt_builder", PromptBuilder(template=prompt_template))
 pipeline.add_component("gemini", gemini_chat)
-time.sleep(1)
+#time.sleep(1)
 
 
 pipeline.connect("text_embedder.embedding", "retriever.query_embedding")
