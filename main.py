@@ -57,11 +57,7 @@ if question:= st.chat_input("Greetings!"):
         # Display the streamed response
         stream_response = st.write_stream(response_generator(clean_response))
 
-        # Get the full text of the response (important!)
-        full_response_text = "".join(list(response_generator(clean_response))) #Re-run the generator to get the full text
-
-        #Now, store the actual text
-        st.session_state.messages.append({"role": "assistant", "content": full_response_text})  # Corrected line
+        st.session_state.messages.append({"role": "assistant", "content": clean_response})  # Corrected line
 
 
 
