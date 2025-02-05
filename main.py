@@ -49,14 +49,17 @@ if question:= st.chat_input("Greetings!"):
     st.session_state.messages.append({"role": "user", "content": question})
     # Display assistant msgs in chat msg container
 
+
     with st.chat_message("assistant"):
-        
         clean_response = "\n\n".join(response["gemini"]["replies"])
+        # Display the streamed response
         stream_response = st.write_stream(response_generator(clean_response))
 
-        #st.markdown(clean_response) 
-    
-    st.session_state.messages.append({"role": "assisant", "content": stream_response})
+        # Get the full text of the response (important!)
+        full_response_text = "".join(list(response_generator(clean_response))) #Re-run the generator to get the full text
+
+        #Now, store the actual text
+        st.session_state.messages.append({"role": "assistant", "content": full_response_text})  # Corrected line
 
 
 
