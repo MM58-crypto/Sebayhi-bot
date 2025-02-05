@@ -39,10 +39,7 @@ if question:= st.chat_input("Greetings!"):
     conversation_history = "\n".join(
         f"{msg['role'].capitalize()}: {msg['content']}" for msg in st.session_state.messages
     )
-    response = haystack_pipeline.pipeline.run({
-        "text_embedder": {"text": question},
-        "prompt_builder": {"query": question + conversation_history}
-    })
+
     with st.chat_message("user"):
         st.markdown(question)  
     # Append user to chat history 
@@ -51,6 +48,11 @@ if question:= st.chat_input("Greetings!"):
 
 
     with st.chat_message("assistant"):
+        response = haystack_pipeline.pipeline.run({
+        "text_embedder": {"text": question},
+        "prompt_builder": {"query": question + conversation_history}
+        })
+        
         clean_response = "\n\n".join(response["gemini"]["replies"])
         # Display the streamed response
         stream_response = st.write_stream(response_generator(clean_response))
