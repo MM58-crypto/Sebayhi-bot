@@ -50,7 +50,7 @@ if question:= st.chat_input("Greetings!"):
     with st.chat_message("assistant"):
         response = haystack_pipeline.pipeline.run({
         "text_embedder": {"text": question},
-        "prompt_builder": {"query": question + conversation_history}
+        "prompt_builder": {"query": question}
         })
         
         clean_response = "\n\n".join(response["gemini"]["replies"])
