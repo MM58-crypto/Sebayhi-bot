@@ -46,11 +46,11 @@ if question:= st.chat_input("Greetings!"):
     st.session_state.messages.append({"role": "user", "content": question})
     # Display assistant msgs in chat msg container
 
-
+    full_prompt = f"{conversation_history}\nUser: {question}"
     with st.chat_message("assistant"):
         response = haystack_pipeline.pipeline.run({
         "text_embedder": {"text": question},
-        "prompt_builder": {"query": question}
+        "prompt_builder": {"query": full_prompt}
         })
         
         clean_response = "\n\n".join(response["gemini"]["replies"])
