@@ -17,7 +17,7 @@ import streamlit as st
 import time
 
 qdrant_doc_store = QdrantDocumentStore(
-    url="https://3d6b132b-9c57-4c08-9ced-28d76516d7f4.us-west-2-0.aws.cloud.qdrant.io",
+    url="https://3da1e5d0-41f3-4416-b74a-bd58b5108e2e.eu-west-2-0.aws.cloud.qdrant.io:6333",
     index="Document",
     embedding_dim=768,
     recreate_index=False,
