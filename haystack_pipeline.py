@@ -56,7 +56,9 @@ Context:
 Question: {{ query }}
 
 """
-txt_embedder = SentenceTransformersTextEmbedder()
+txt_embedder = SentenceTransformersTextEmbedder(model="akhooli/Arabic-SBERT-100K")
+
+
 
 pipeline = Pipeline()
 
