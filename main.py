@@ -51,11 +51,11 @@ if question:= st.chat_input("تقضل"):
             f"{msg['role'].capitalize()}: {msg['content']}" for msg in recent_msgs
         )
         response = haystack_pipeline.pipeline.run({
-        "text_embedder": {"text": question},
-        "prompt_builder": {
-            "query": question,
-            "history": conversation_history
-    }
+            "text_embedder": {"text": question},
+            "prompt_builder": {
+                "query": question,
+                "history": conversation_history
+            }
         })
         
         clean_response = "\n\n".join(response["gemini"]["replies"])
