@@ -46,7 +46,8 @@ if question:= st.chat_input("تقضل"):
 
 
     with st.chat_message("assistant"):
-        recent_msgs = st.session_state.message[-5:]
+        k = 6
+        recent_msgs = st.session_state.messages[-5:]
         conversation_history = "\n".join(
             f"{msg['role'].capitalize()}: {msg['content']}" for msg in recent_msgs
         )
