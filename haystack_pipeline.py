@@ -67,7 +67,7 @@ txt_embedder = SentenceTransformersTextEmbedder(model="akhooli/Arabic-SBERT-100K
 
 chat_prompt_builder = ChatPromptBuilder(
     template=[
-        {"role": "system", "content": system_message},
+        {"role": "system", "content": prompt_template},
         {"role": "system", "content": "المراجع:\n{% for doc in documents %}{{ doc.content }}\n{% endfor %}"},
         {"role": "user", "content": "{{ query }}"},
     ]
