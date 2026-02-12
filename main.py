@@ -31,10 +31,10 @@ def response_generator(response):
 
     for word in response.split():
             yield word + " "
-            time.sleep(0.05)
+            time.sleep(0.02)
 
 # user input
-if question:= st.chat_input("Greetings!"):
+if question:= st.chat_input("تفضل"):
     # convo history to pass to the pipeline
     conversation_history = "\n".join(
         f"{msg['role'].capitalize()}: {msg['content']}" for msg in st.session_state.messages
@@ -48,16 +48,25 @@ if question:= st.chat_input("Greetings!"):
 
     #full_prompt = f"{conversation_history}\nUser: {question}"
     with st.chat_message("assistant"):
-        response = haystack_pipeline.pipeline.run({
-        "text_embedder": {"text": question},
-        "prompt_builder": {"query": question}
-        })
-        
-        clean_response = "\n\n".join(response["gemini"]["replies"])
-        # Display the streamed response
-        stream_response = st.write_stream(response_generator(clean_response))
+            # Run pipeline
+        messages = [ChatMessage.from_user("{{ question }}")]
+        res = pipeline.run(
+            data={
+                "prompt_builder": {
+                    "template_variables": {"question": question},
+                    "template": messages
+                }
+            }
+        )
 
-        st.session_state.messages.append({"role": "assistant", "content": clean_response})  # Corrected line
+    # Get assistant response
+        assistant_response = "\n\n".join(res["gemini"]["replies"])
+
+    # Display streamed response
+        with st.chat_message("assistant"):
+            st.write_stream(response_generator(assistant_response))
+
+        st.session_state.messages.append({"role": "assistant", "content": assistant_response})
 
 
 
