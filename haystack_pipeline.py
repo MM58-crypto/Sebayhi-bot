@@ -25,7 +25,7 @@ qdrant_doc_store = QdrantDocumentStore(
 )
 
 
-gemini_chat = GoogleAIGeminiGenerator(model="gemini-2.0-flash", api_key=st.secrets["GEMINI_API_KEY"])
+gemini_chat = GoogleAIGeminiGenerator(model="gemini-2.0-flash", api_key=Secret.from_token(st.secrets["GEMINI_API_KEY"]))
 
 prompt_template = """
 - بالنظر إلى المعلومات التالية، أجب عن السؤال.  
