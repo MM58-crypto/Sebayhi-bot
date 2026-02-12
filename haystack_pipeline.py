@@ -26,7 +26,7 @@ qdrant_doc_store = QdrantDocumentStore(
 
 
 gemini_chat = GoogleAIGeminiChatGenerator(
-    model="gemini-2.0-flash", 
+    model="gemini-1.5-flash", 
     api_key=Secret.from_token(st.secrets["GEMINI_API_KEY"]),
     generation_config={
         "max_output_tokens": 800,
