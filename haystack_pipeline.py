@@ -25,7 +25,14 @@ qdrant_doc_store = QdrantDocumentStore(
 )
 
 
-gemini_chat = GoogleAIGeminiGenerator(model="gemini-2.5-pro", api_key=Secret.from_token(st.secrets["GEMINI_API_KEY"]))
+gemini_chat = GoogleAIGeminiChatGenerator(
+    model="gemini-2.0-flash", 
+    api_key=Secret.from_token(st.secrets["GEMINI_API_KEY"]),
+    generation_config={
+        "max_output_tokens": 800,
+        "temperature": 0.3
+    }
+)
 
 prompt_template = """
 - بالنظر إلى المعلومات التالية، أجب عن السؤال.  
@@ -58,18 +65,24 @@ Question: {{ query }}
 """
 txt_embedder = SentenceTransformersTextEmbedder(model="akhooli/Arabic-SBERT-100K")
 
-
+chat_prompt_builder = ChatPromptBuilder(
+    template=[
+        {"role": "system", "content": system_message},
+        {"role": "system", "content": "المراجع:\n{% for doc in documents %}{{ doc.content }}\n{% endfor %}"},
+        {"role": "user", "content": "{{ query }}"},
+    ]
+)
 
 pipeline = Pipeline()
 
 
 pipeline.add_component("text_embedder", txt_embedder)
-pipeline.add_component("retriever", QdrantEmbeddingRetriever(document_store=qdrant_doc_store))
-pipeline.add_component("prompt_builder", PromptBuilder(template=prompt_template))
+pipeline.add_component("retriever", QdrantEmbeddingRetriever(document_store=qdrant_doc_store, top_k=3))
+pipeline.add_component("prompt_builder", chat_prompt_builder)
 pipeline.add_component("gemini", gemini_chat)
-time.sleep(1)
+#time.sleep(1)
 
 
 pipeline.connect("text_embedder.embedding", "retriever.query_embedding")
 pipeline.connect("retriever", "prompt_builder.documents")
-pipeline.connect("prompt_builder.prompt", "gemini")
+pipeline.connect("prompt_builder.messages", "gemini.messages")
