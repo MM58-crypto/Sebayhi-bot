@@ -51,7 +51,7 @@ if question:= st.chat_input("تفضل"):
     with st.chat_message("assistant"):
             # Run pipeline
         messages = [ChatMessage.from_user("{{ question }}")]
-        res = pipeline.run(
+        res = haystack_pipeline.pipeline.run(
             data={
                 "text_embedder": {"text": question},
                 "prompt_builder": {
