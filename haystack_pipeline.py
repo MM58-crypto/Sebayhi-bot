@@ -1,7 +1,7 @@
 from haystack_integrations.document_stores.qdrant import QdrantDocumentStore
 from haystack.utils import Secret
 from haystack.document_stores.types import DuplicatePolicy
-from haystack.components.builders.prompt_builder import PromptBuilder, ChatPromptBuilder
+from haystack.components.builders import ChatPromptBuilder
 from haystack import Document
 from haystack_integrations.components.generators.google_ai import GoogleAIGeminiGenerator, GoogleAIGeminiChatGenerator
 from pathlib import Path
