@@ -8,6 +8,7 @@ import streamlit as st
 #from PIL import Image
 from haystack.utils import Secret
 #import cv2
+from haystack.dataclasses import ChatMessage
 import numpy as np
 import time
 
