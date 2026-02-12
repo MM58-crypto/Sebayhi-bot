@@ -52,10 +52,11 @@ if question:= st.chat_input("تفضل"):
         messages = [ChatMessage.from_user("{{ question }}")]
         res = pipeline.run(
             data={
+                "text_embedder": {"text": question},
                 "prompt_builder": {
-                    "template_variables": {"question": question},
-                    "template": messages
-                }
+                    "template": messages,
+                    "template_variables": {"question": question}
+                    }
             }
         )
 
