@@ -34,7 +34,7 @@ def response_generator(response):
             time.sleep(0.05)
 
 # user input
-if question:= st.chat_input("Greetings!"):
+if question:= st.chat_input("تقضل"):
     # convo history to pass to the pipeline
     
 
