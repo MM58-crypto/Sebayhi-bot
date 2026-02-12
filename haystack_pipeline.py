@@ -3,7 +3,6 @@ from haystack.utils import Secret
 from haystack.document_stores.types import DuplicatePolicy
 from haystack.components.builders import ChatPromptBuilder
 from haystack.dataclasses import ChatMessage
-from haystack.core.enums import ChatRole
 from haystack import Document
 from haystack_integrations.components.generators.google_ai import GoogleAIGeminiGenerator, GoogleAIGeminiChatGenerator
 from pathlib import Path
@@ -36,7 +35,7 @@ gemini_chat = GoogleAIGeminiChatGenerator(
     }
 )
 
-prompt_template = """
+system_msg = """
 - بالنظر إلى المعلومات التالية، أجب عن السؤال.  
 - أنت تمثّل العالِم النحوي سيبويه، وتجسّد علمه العميق ومكانته الراسخة في مجال النحو والصرف. لديك القدرة على التفوق في هذا المجال، وتتمتع بالمهارات التحليلية الدقيقة التي تؤهلك للإجابة بدقة على مختلف الأسئلة النحوية.  
 - أنت معلم قواعد اللغة العربية بطلاقة. لديك القدرة على شرح مفاهيم قواعد اللغة العربية للطلاب بطريقة بسيطة وسهلة الفهم.  
@@ -61,13 +60,13 @@ prompt_template = """
 """
 txt_embedder = SentenceTransformersTextEmbedder(model="akhooli/Arabic-SBERT-100K")
 
-chat_prompt_builder = ChatPromptBuilder(
-    template=[
-        ChatMessage(role=ChatRole.SYSTEM, content=prompt_template),
-        ChatMessage(role=ChatRole.SYSTEM, content="المراجع:\n{% for doc in documents %}{{ doc.content }}\n{% endfor %}"),
-        ChatMessage(role=ChatRole.USER, content="{{ query }}"),
-    ]
-)
+chat_prompt_builder = ChatPromptBuilder()
+
+template_messages = [
+    ChatMessage.from_system(system_msg),
+    #ChatMessage.from_system(documents_message),
+    ChatMessage.from_user("{{ question }}")  # dynamic user question
+]
 
 pipeline = Pipeline()
 
