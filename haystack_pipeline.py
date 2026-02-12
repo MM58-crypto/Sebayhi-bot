@@ -2,6 +2,7 @@ from haystack_integrations.document_stores.qdrant import QdrantDocumentStore
 from haystack.utils import Secret
 from haystack.document_stores.types import DuplicatePolicy
 from haystack.components.builders import ChatPromptBuilder
+from haystack.dataclasses import ChatMessage
 from haystack import Document
 from haystack_integrations.components.generators.google_ai import GoogleAIGeminiGenerator, GoogleAIGeminiChatGenerator
 from pathlib import Path
@@ -55,21 +56,15 @@ prompt_template = """
 
 
 
-Context:
-{% for document in documents %}
-    {{ document.content }}
-{% endfor %}
-
-Question: {{ query }}
 
 """
 txt_embedder = SentenceTransformersTextEmbedder(model="akhooli/Arabic-SBERT-100K")
 
 chat_prompt_builder = ChatPromptBuilder(
     template=[
-        {"role": "system", "content": prompt_template},
-        {"role": "system", "content": "المراجع:\n{% for doc in documents %}{{ doc.content }}\n{% endfor %}"},
-        {"role": "user", "content": "{{ query }}"},
+        ChatMessage(role=ChatRole.SYSTEM, content=prompt_template),
+        ChatMessage(role=ChatRole.SYSTEM, content="المراجع:\n{% for doc in documents %}{{ doc.content }}\n{% endfor %}"),
+        ChatMessage(role=ChatRole.USER, content="{{ query }}"),
     ]
 )
 
