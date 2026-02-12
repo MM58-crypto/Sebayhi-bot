@@ -21,11 +21,11 @@ qdrant_doc_store = QdrantDocumentStore(
     index="Document",
     embedding_dim=768, # based on the embedding model
     recreate_index=False, # enable only to recreate the index and not connect to the existing one
-    api_key = Secret.from_token(st.secrets["Qdrant_key"])
+    api_key = st.secrets["Qdrant_key"]
 )
 
 
-gemini_chat = GoogleAIGeminiGenerator(model="gemini-2.0-flash", api_key=Secret.from_token(st.secrets["GEMINI_API_KEY"]))
+gemini_chat = GoogleAIGeminiGenerator(model="gemini-2.0-flash", api_key=st.secrets["GEMINI_API_KEY"])
 
 prompt_template = """
 - بالنظر إلى المعلومات التالية، أجب عن السؤال.  
