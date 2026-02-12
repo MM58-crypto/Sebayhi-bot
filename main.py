@@ -8,7 +8,6 @@ import streamlit as st
 #from PIL import Image
 from haystack.utils import Secret
 #import cv2
-from haystack.dataclasses import ChatMessage
 import numpy as np
 import time
 
@@ -32,14 +31,12 @@ def response_generator(response):
 
     for word in response.split():
             yield word + " "
-            time.sleep(0.02)
+            time.sleep(0.05)
 
 # user input
-if question:= st.chat_input("تفضل"):
+if question:= st.chat_input("Greetings!"):
     # convo history to pass to the pipeline
-    conversation_history = "\n".join(
-        f"{msg['role'].capitalize()}: {msg['content']}" for msg in st.session_state.messages
-    )
+    
 
     with st.chat_message("user"):
         st.markdown(question)  
@@ -47,28 +44,25 @@ if question:= st.chat_input("تفضل"):
     st.session_state.messages.append({"role": "user", "content": question})
     # Display assistant msgs in chat msg container
 
-    #full_prompt = f"{conversation_history}\nUser: {question}"
+
     with st.chat_message("assistant"):
-            # Run pipeline
-        messages = [ChatMessage.from_user("{{ question }}")]
-        res = haystack_pipeline.pipeline.run(
-            data={
-                "text_embedder": {"text": question},
-                "prompt_builder": {
-                    "template": messages,
-                    "template_variables": {"question": question}
-                    }
-            }
+        recent_msgs = st.session_state.message[-5:]
+        conversation_history = "\n".join(
+            f"{msg['role'].capitalize()}: {msg['content']}" for msg in recent_msgs
         )
+        response = haystack_pipeline.pipeline.run({
+        "text_embedder": {"text": question},
+        "prompt_builder": {
+            "query": question,
+            "history": conversation_history
+    }
+        })
+        
+        clean_response = "\n\n".join(response["gemini"]["replies"])
+        # Display the streamed response
+        stream_response = st.write_stream(response_generator(clean_response))
 
-    # Get assistant response
-        assistant_response = "\n\n".join(res["gemini"]["replies"])
-
-    # Display streamed response
-        with st.chat_message("assistant"):
-            st.write_stream(response_generator(assistant_response))
-
-        st.session_state.messages.append({"role": "assistant", "content": assistant_response})
+        st.session_state.messages.append({"role": "assistant", "content": clean_response})  # Corrected line
 
 
 
@@ -82,6 +76,5 @@ if question:= st.chat_input("تفضل"):
 #    "prompt_builder": {"template": question }
 #   })
 #    st.info("\n\n".join(response["gemini"]["replies"])) 
-
 
 
