@@ -21,7 +21,7 @@ qdrant_doc_store = QdrantDocumentStore(
     index="Document",
     embedding_dim=768, # based on the embedding model
     recreate_index=False, # enable only to recreate the index and not connect to the existing one
-    api_key = Secret.from_token((userdata.get('Qdrant_key')))
+    api_key = Secret.from_token(st.secrets["Qdrant_key"])
 )
 
 
