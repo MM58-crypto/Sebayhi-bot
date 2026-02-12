@@ -26,8 +26,8 @@ qdrant_doc_store = QdrantDocumentStore(
 )
 
 
-gemini_chat = GoogleAIGeminiChatGenerator(
-    model="gemini-1.5-flash", 
+gemini_chat = GoogleAIGeminiGenerator(
+    model="gemini-2.5-flash", 
     api_key=Secret.from_token(st.secrets["GEMINI_API_KEY"]),
     generation_config={
         "max_output_tokens": 800,
@@ -55,18 +55,27 @@ system_msg = """
 
 
 
+Context:
+{% for document in documents %}
+    {{ document.content }}
+{% endfor %}
+
+{% if history %}
+---
+CONVERSATION HISTORY:
+{{ history }}
+---
+{% endif %}
+
+Question: {{ query }}
 
 
 """
 txt_embedder = SentenceTransformersTextEmbedder(model="akhooli/Arabic-SBERT-100K")
 
-chat_prompt_builder = ChatPromptBuilder()
+chat_prompt_builder = PromptBuilder(template=system_msg)
 
-template_messages = [
-    ChatMessage.from_system(system_msg),
-    #ChatMessage.from_system(documents_message),
-    ChatMessage.from_user("{{ question }}")  # dynamic user question
-]
+
 
 pipeline = Pipeline()
 
@@ -79,5 +88,5 @@ pipeline.add_component("gemini", gemini_chat)
 
 
 pipeline.connect("text_embedder.embedding", "retriever.query_embedding")
-#pipeline.connect("retriever", "prompt_builder.documents")
-pipeline.connect("prompt_builder.prompt", "gemini.messages")
+pipeline.connect("retriever", "prompt_builder.documents")
+pipeline.connect("prompt_builder.prompt", "gemini")
