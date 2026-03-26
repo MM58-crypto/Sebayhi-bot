@@ -18,7 +18,7 @@ import streamlit as st
 import time
 
 qdrant_doc_store = QdrantDocumentStore(
-    url="https://a6da93c8-e638-4031-bfdc-df40d671faac.sa-east-1-0.aws.cloud.qdrant.io:6333",
+    url="https://93829de1-776f-4ae0-949f-503bcaf173c9.eu-west-2-0.aws.cloud.qdrant.io",
     index="Document",
     embedding_dim=768, # based on the embedding model
     recreate_index=False, # enable only to recreate the index and not connect to the existing one
